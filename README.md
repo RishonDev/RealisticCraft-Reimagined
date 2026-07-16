@@ -88,7 +88,7 @@ See [MIGRATION.md](MIGRATION.md) for full detail on each of these:
 
 World seeds confirmed to generate good Tectonic/Terralith terrain with this pack's mod set and config:
 
-- `6316397256416279899`
+- `6316397256416279899` — notable terrain around `X -1376, Z -1904`
 
 ## Regenerating the pack
 
