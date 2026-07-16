@@ -76,13 +76,19 @@ Import the `.mrpack` file directly in PrismLauncher (Add Instance → Import) or
 
 ## Known issues carried over from the source instance
 
-See `MIGRATION-26.2.md` for full detail on each of these:
+See [MIGRATION.md](MIGRATION.md) for full detail on each of these:
 
 - **Camera Overhaul** loads but its mixins fail to apply against 26.2 (no compatible build exists yet) — effectively inert, kept enabled in case that changes.
-- **Distant Horizons is not included** — its only 26.2 build has severe LOD rendering artifacts. **Voxy** is included in its place as a replacement, though it hasn't been in-game verified yet by the time this pack was built.
+- **Distant Horizons is not included** — its only 26.2 build has severe LOD rendering artifacts. **Voxy** is included in its place as a replacement.
 - **Better Combat is not included** — its 1.21.11 build hard-crashes on MC 26.2 (`NoClassDefFoundError`), and no 26.2 build exists.
+- **C2ME can flatten terrain near Terralith villages** — under concurrent worldgen, C2ME's chunk system can read a neighboring chunk's terrain before it's finished shaping (`Detected unsafe terrain read during worldgen`), and Terralith's `fortified_village` structure was seen doing this thousands of times in one world, terracing against incomplete height data. Setting `optimizeStructureWeightSampler = false` under `[vanillaWorldGenOptimizations]` in `config/c2me.toml` targets the specific vanilla optimization involved, without giving up C2ME's other performance benefits. Already applied in this pack's bundled config.
 - `env` (client/server requirement) is set uniformly to `client: required, server: unsupported` for every mod in the manifest, for simplicity — not individually verified per mod, so a dedicated-server host may need to adjust some entries (e.g. c2me, lithium, vmp are primarily server/world-gen optimizations and could plausibly run server-side).
-- Not yet tested end-to-end via an actual PrismLauncher import — only the `.mrpack` structure (format version, hashes, file list, zip contents) has been validated so far.
+
+## Recommended seeds
+
+World seeds confirmed to generate good Tectonic/Terralith terrain with this pack's mod set and config:
+
+- `6316397256416279899`
 
 ## Regenerating the pack
 
