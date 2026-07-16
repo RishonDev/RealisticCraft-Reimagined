@@ -13,7 +13,13 @@ CUSTOM_FILE = "ToughAsNails-fabric-26.2-21.11.0.7.jar"
 
 MC_VERSION = "26.2"
 FABRIC_LOADER_VERSION = "0.19.3"
-PACK_VERSION = "1.0.0"
+PACK_VERSION = "1.1.0"
+
+# Bundled directly (not on Modrinth / not worth hash-resolving) but shipped disabled by
+# default -- present in resourcepacks/shaderpacks so players can opt in from the in-game
+# menus, without being auto-enabled by the pack itself.
+RESOURCEPACKS = ["§5RealisCraft §6[v1.38.1] §f[Demo].zip"]
+SHADERPACKS = ["Bliss_v2.1.2_(Chocapic13_Shaders_edit).zip"]
 
 # Config folders/files to exclude from overrides (disabled mods, huge caches, backups)
 EXCLUDE_CONFIG = {
@@ -82,6 +88,38 @@ def build_variant(variant_dir, name, summary, include_physics):
 
     if os.path.exists(os.path.join(MC, "options.txt")):
         shutil.copy2(os.path.join(MC, "options.txt"), os.path.join(variant_dir, "overrides", "options.txt"))
+
+    # Resource packs / shader packs: bundled so they're present to opt into, but shipped
+    # disabled by default (options.txt's resourcePacks list already only has "vanilla",
+    # and we force-disable Iris shaders below regardless of the live instance's current state).
+    if RESOURCEPACKS:
+        dest_rp = os.path.join(variant_dir, "overrides", "resourcepacks")
+        os.makedirs(dest_rp, exist_ok=True)
+        for rp in RESOURCEPACKS:
+            src = os.path.join(MC, "resourcepacks", rp)
+            if os.path.exists(src):
+                shutil.copy2(src, os.path.join(dest_rp, rp))
+
+    if SHADERPACKS:
+        dest_sp = os.path.join(variant_dir, "overrides", "shaderpacks")
+        os.makedirs(dest_sp, exist_ok=True)
+        for sp in SHADERPACKS:
+            src = os.path.join(MC, "shaderpacks", sp)
+            if os.path.exists(src):
+                shutil.copy2(src, os.path.join(dest_sp, sp))
+
+    # Force shaders off in the packaged iris.properties, independent of whatever the
+    # live instance currently has active.
+    iris_props_dest = os.path.join(overrides_config, "iris.properties")
+    if os.path.exists(iris_props_dest):
+        with open(iris_props_dest, encoding="utf-8") as f:
+            lines = f.readlines()
+        with open(iris_props_dest, "w", encoding="utf-8") as f:
+            for line in lines:
+                if line.startswith("enableShaders="):
+                    f.write("enableShaders=false\n")
+                else:
+                    f.write(line)
 
     return len(index["files"])
 
