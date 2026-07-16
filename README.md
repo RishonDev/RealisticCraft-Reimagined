@@ -1,6 +1,6 @@
 # RealisticCraft Reimagined
 
-A Modrinth-format modpack (`.mrpack`) built from the RealisticCraft PrismLauncher instance, updated for Minecraft 26.2 / Fabric Loader 0.19.3. This is a packaging of the work documented in `C:\Users\PC\AppData\Roaming\PrismLauncher\instances\RealisticCraft\MIGRATION-26.2.md` — read that first for *why* the mod list looks the way it does (what got replaced, what has no update yet, what got added).
+A Modrinth-format modpack (`.mrpack`) built from the RealisticCraft PrismLauncher instance, updated for Minecraft 26.2 / Fabric Loader 0.19.3. See [MIGRATION.md](MIGRATION.md) first for *why* the mod list looks the way it does (what got replaced, what has no update yet, what got added).
 
 ## Variants
 
@@ -86,11 +86,16 @@ See `MIGRATION-26.2.md` for full detail on each of these:
 
 ## Regenerating the pack
 
-`build_pack.py` rebuilds both `.mrpack` files from whatever's currently active (non-`.disabled`) in:
+`build_pack.py` is self-contained — no external cache or machine-specific setup beyond having the source instance installed. Run it with Python 3:
 ```
-C:\Users\PC\AppData\Roaming\PrismLauncher\instances\RealisticCraft\minecraft\mods
+python build_pack.py
 ```
-It resolves each active jar to its Modrinth project/version by SHA-1 hash lookup (`GET /v2/version_file/{hash}`), so the mods folder is the source of truth — just re-run the script after updating mods. Anything that doesn't resolve on Modrinth (currently only the custom `ToughAsNails-fabric-26.2-21.11.0.7.jar` build) gets bundled as a raw override instead of a download reference.
+By default it reads from `%APPDATA%\PrismLauncher\instances\RealisticCraft\minecraft\mods`. To point it at a differently-named instance or a non-default PrismLauncher install location, set either env var before running:
+```
+set PRISMLAUNCHER_INSTANCE=MyInstanceName
+set PRISMLAUNCHER_ROOT=D:\SomeOtherPath\PrismLauncher
+```
+It resolves each active (non-`.disabled`) jar to its Modrinth project/version by SHA-1 hash lookup (`GET /v2/version_file/{hash}`), caching the result in `_cache/` (gitignored) so re-runs don't re-hit the API for unchanged mods — delete that folder to force a full re-resolve. Anything that doesn't resolve on Modrinth (currently only the custom `ToughAsNails-fabric-26.2-21.11.0.7.jar` build) gets bundled as a raw override instead of a download reference.
 
 Config overrides are copied from the instance's `config/` folder, excluding:
 - `config/fancymenu/assets` (456 MB of regenerable intro-video cache, not user config)
