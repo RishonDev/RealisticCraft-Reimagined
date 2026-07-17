@@ -26,7 +26,7 @@ CUSTOM_FILE = "ToughAsNails-fabric-26.2-21.11.0.7.jar"  # not on Modrinth, bundl
 
 MC_VERSION = "26.2"
 FABRIC_LOADER_VERSION = "0.19.3"
-PACK_VERSION = "1.1.1"
+PACK_VERSION = "1.2.0"
 
 # Bundled directly (not on Modrinth / not worth hash-resolving) but shipped disabled by
 # default -- present in resourcepacks/shaderpacks so players can opt in from the in-game
