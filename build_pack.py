@@ -31,7 +31,7 @@ PACK_VERSION = "1.1.1"
 # Bundled directly (not on Modrinth / not worth hash-resolving) but shipped disabled by
 # default -- present in resourcepacks/shaderpacks so players can opt in from the in-game
 # menus, without being auto-enabled by the pack itself.
-RESOURCEPACKS = ["§5RealisCraft §6[v1.38.1] §f[Demo].zip"]
+RESOURCEPACKS = ["3D Default 1.21.2+ v1.15.0.zip"]
 SHADERPACKS = ["Bliss_v2.1.2_(Chocapic13_Shaders_edit).zip"]
 
 # Config folders/files to exclude from overrides (disabled mods, huge caches, backups)
@@ -151,6 +151,8 @@ def build_index(resolved, name, summary, include_physics):
 
 
 def build_variant(resolved, variant_dir, name, summary, include_physics):
+    if os.path.exists(variant_dir):
+        shutil.rmtree(variant_dir)
     os.makedirs(variant_dir, exist_ok=True)
     index = build_index(resolved, name, summary, include_physics)
     with open(os.path.join(variant_dir, "modrinth.index.json"), "w", encoding="utf-8") as f:

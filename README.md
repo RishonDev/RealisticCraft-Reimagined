@@ -7,11 +7,13 @@ A Modrinth-format modpack (`.mrpack`) built from the RealisticCraft PrismLaunche
 - **RealisticCraft-Reimagined-PhysicsOn.mrpack** — full pack, 53 mods, includes Physics Mod (3.1.45).
 - **RealisticCraft-Reimagined-PhysicsOff.mrpack** — 52 mods, identical pack with Physics Mod removed and its config dropped, for better performance or a vanilla-feel physics experience.
 
-Both variants bundle a resource pack (`RealisCraft [Demo] v1.38.1`) and a shader pack (`Bliss v2.1.2`, a Chocapic13 edit) directly — but **disabled by default**. They're there to opt into from the in-game resource pack / Iris shader menus, not applied automatically (`options.txt` only activates `vanilla`, and the packaged `iris.properties` forces `enableShaders=false` regardless of what's active on the source instance).
+Both variants bundle a resource pack ([3D Default](https://modrinth.com/resourcepack/3d-default) v1.15.0, GPL-3.0) and a shader pack (`Bliss v2.1.2`, a Chocapic13 edit) directly — but **disabled by default**. They're there to opt into from the in-game resource pack / Iris shader menus, not applied automatically (`options.txt` only activates `vanilla`, and the packaged `iris.properties` forces `enableShaders=false` regardless of what's active on the source instance).
+
+The resource pack was originally the "RealisCraft [Demo]" pack that ships with the source instance, but that's an unlicensed demo/trial pack not cleared for redistribution — swapped for 3D Default instead, which is explicitly GPL-3.0 licensed (its LICENSE file is bundled in the pack itself, confirmed) and adds real 3D block geometry rather than flat textures, so it still looks distinctly non-vanilla with or without the shader active.
 
 ## Installing
 
-Import the `.mrpack` file directly in PrismLauncher (Add Instance → Import) or the Modrinth App. Mods are fetched from Modrinth on first launch; the custom-built ToughAsNails jar (not published anywhere), the bundled resource/shader packs, and a handful of config files are bundled directly in the pack as overrides — this is why the `.mrpack` files are ~80 MB rather than the ~1 MB they'd be with just mod references.
+Import the `.mrpack` file directly in PrismLauncher (Add Instance → Import) or the Modrinth App. Mods are fetched from Modrinth on first launch; the custom-built ToughAsNails jar (not published anywhere), the bundled resource/shader packs, and a handful of config files are bundled directly in the pack as overrides.
 
 ## Full mod list (physics-on variant; physics-off omits only Physics Mod)
 
